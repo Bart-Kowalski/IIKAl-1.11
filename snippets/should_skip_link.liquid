@@ -1,0 +1,18 @@
+{% assign should_skip_link = false %}
+{% if current_link.type == 'collection_link' and current_links.links == blank %}
+  {% assign should_skip_link = true %}
+  {% for item in current_link.object.products %}
+    {% if item.available %}
+      {% assign should_skip_link = false %}
+    {% endif %}
+  {% endfor %}
+{% elsif current_link.type == 'collection_link' %}
+  {% assign should_skip_link = true %}
+  {% for current_child_link in current_link.links %}
+    {% for item in current_child_link.object.products %}
+      {% if item.available %}
+        {% assign should_skip_link = false %}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+{% endif %}
